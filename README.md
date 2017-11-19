@@ -1,6 +1,24 @@
-# clock
+# Pomodoro clock
 
-> A Vue.js project
+> A Vue.js that uses Element UI and Firebase 
+## Goal
+* play around with Element UI's components
+* create a time/task management web application
+    * the application should let the user input and delete tasks and setup a session time, as well as a break time
+## concept
+`The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s.[1] The technique uses a timer to break down work into intervals, traditionally 25 minutes in length, separated by short breaks. These intervals are named pomodoros`(Pomodoro Technique. (2017, November 08). Retrieved from https://en.wikipedia.org/wiki/Pomodoro_Technique )
+## todo
+* implement task removing functionality
+* implement task adding/editing functionality
+* implement reset clock
+* implement stop functionality
+* separate app into multiple components
+* remove console.logs
+* remove unused variables
+## future features
+* add the ability to have multiple users
+### status
+**WIP**
 
 ## Build Setup
 
@@ -18,4 +36,3 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
