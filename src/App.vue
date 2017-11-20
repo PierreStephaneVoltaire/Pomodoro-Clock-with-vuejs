@@ -1,19 +1,7 @@
 <template>
   <div id="app">
-    <!--nav bar
-      #requirements
-      should display an info option
-      should display a login option 
-      # task
- displays menu items
-      -->
-    <!-- <el-menu theme="dark" class="el-menu-demo" mode="horizontal">
-        <el-menu-item index="1">promoto clock</el-menu-item>
-  
-      </el-menu> -->
-  
-  
-  
+    <el-container>
+    
     <!--welcome message
   
     
@@ -41,11 +29,12 @@
       -->
   
   
-  
+  <el-header>
+    <el-card>
     <h1 v-for="(user, index) in profile" :key="user">welcome {{user.name}}!!!</h1>
-  
-  
-  
+  </el-card>
+  </el-header>
+  <el-main>
     <el-card class="box-card">
   
   
@@ -96,7 +85,7 @@
   
   
   
-        <el-col :lg="9">
+        <el-col :lg="11" class="clock">
   
   
   
@@ -115,8 +104,7 @@
   
   
   
-  
-        <el-col :lg="13" :offset="2">
+        <el-col :lg="11" class="taskManager" >
   
   
   
@@ -174,7 +162,7 @@
   
   
   
-              <span>tasks</span>
+              <span class="title">tasks</span>
   
   
   
@@ -488,9 +476,28 @@
     </el-card>
   
   
+  </el-main>
   
-  
-  
+  <el-footer>
+   <el-card>
+     <el-row>
+       <el-col :lg="24" >
+  <h3>Instructions</h3>
+    <el-steps   simple >
+  <el-step title="step 1:select a session time" ></el-step>
+     <el-step title="step 2:select a break time" ></el-step>
+   <el-step title="step 3:add a few tasks you'd like to work on" ></el-step>
+  <el-step title="step 4:start working" ></el-step>
+  <el-step title="step 5:take a break" ></el-step>
+    <el-step title="step 6:go back to step 4" ></el-step>
+
+</el-steps>
+       </el-col>
+     </el-row>
+
+
+   </el-card>
+  </el-footer>
   
   
   
@@ -509,7 +516,7 @@
   
   
   
-      <el-form :model="newTask">
+      <el-form :model="newTask" :rules="rules" ref="newTask">
   
   
   
@@ -517,7 +524,7 @@
   
   
   
-        <el-form-item label="Title">
+        <el-form-item label="Title" prop="title">
   
   
   
@@ -541,7 +548,7 @@
   
   
   
-        <el-form-item label="Description">
+        <el-form-item label="Description" prop="description">
   
   
   
@@ -589,7 +596,7 @@
   
     
   
-      <el-button type="primary" @click="addTask
+      <el-button type="primary" @click="addTask('newTask')
   
   ">Confirm</el-button>
   
@@ -646,7 +653,7 @@
   
   
   
-    <router-view/>
+    </el-container>
   
   
   
@@ -724,7 +731,17 @@ export default {
         title: "",
 
         description: ""
-      }
+      },
+      rules: {
+          title: [
+            { required: true, message: 'Please input a valid title', trigger: 'change' },
+          ],
+           description: [
+            { required: true, message: 'Please input a valid description', trigger: 'change' },
+          ],
+        
+        }
+      
     };
   },
 
@@ -779,15 +796,21 @@ export default {
       this.dialogFormVisible = true;
     },
 
-    addTask() {
-      tasksRef.push(this.newTask);
+    addTask(formName) {
+       this.$refs[formName].validate((valid) => {
+          if (valid) {
+            tasksRef.push(this.newTask);
 
       this.dialogFormVisible = false;
 
       this.newTask.title = "";
 
       this.newTask.description = "";
-    }
+          } 
+        });
+      }
+     
+    
     ,viewDetails(task){
 this.newTask.title=task.title
 this.newTask.description=task.description
@@ -819,10 +842,13 @@ this.dialogDetailsVisible = true;
 
   color: white;
 }
+.title{
+  font-weight: bold;
+  font-size: 20px;
+}
 
 .tasks {
   margin: 0 0 2em 0;
-
   list-style-type: none;
 
   padding: 0;
@@ -860,17 +886,25 @@ this.dialogDetailsVisible = true;
 
 .tasks .text {
   position: relative;
+font-size:20px; 
 
   top: -3px;
 }
 .btn{
   width: 25%;
 }
+.taskManager{
+  margin-left:30px; 
+  margin-right: 30px;
+}
+
 .options {
   width: 100%;
 }
 
 .clock {
+ margin-right: 30px;
+  margin-left: 30px;
 }
 
 .tasks .badge {

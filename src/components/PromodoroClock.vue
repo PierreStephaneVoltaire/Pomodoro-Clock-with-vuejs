@@ -1,38 +1,8 @@
 <template>
   <el-card class="box-card">
-  
-  
-  
-  
-  
-  
-  
-  
-  
     <div slot="header" class="clearfix">
-  
-  
-  
-  
-  
-  
-  
-      <h1>Progress</h1>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+      <span class="title">Progress</span>
     </div>
-  
-  
-  
     <!--clock
   
     
@@ -58,131 +28,39 @@
     
   
       -->
-  
-  
-  
+
     <el-row>
-  
-  
-  
-  
-  
-  
-  
       <el-col :lg="24">
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
         <el-progress :width="200" :stroke-width="10" class="clock" type="circle" :percentage="percentage"></el-progress>
-  
-  
-  
-  
-  
-  
-  
       </el-col>
-  
-  
-  
-  
-  
-  
-  
+
     </el-row>
   
     <el-row>
-  
-  
-  
-  
-  
-  
-  
+
       <el-col :lg="24">
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
         <h2> {{inBreak ? "stop working":"Work!"}}</h2>
   
-  
-  
-  
-  
-  
-  
-  
-  
       </el-col>
-  
-  
-  
-  
-  
-  
-  
+
     </el-row>
-  
-  
-  
-  
-  
-    <!--reset button
-  
-    
-  
-      #requirements
-  
-    
-  
-      it should reset the timer and session/break time 
-  
-    
-  
-    
-  
-    
-  
-      
-  
-    
-  
-      -->
-  
-  
-  
+  <!--countdoun
+  #requirements
+
+  displays remaining time
+  #todo make another component display it
+  -->
+  <el-row>
+    <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"' >{{hour}}:HH</span></el-col>
+        <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"'>{{minute}}:seconds</span></el-col>
+    <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"'>{{second}}:seconds</span></el-col>
+
+  </el-row>
+
     <el-row id="btns">
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 
       <!--start button
   
     
@@ -197,117 +75,21 @@
   
      once the clock starts, it should change color (red) and display stop
   
-    
-  
-    
-  
-    
-  
-      
-  
-    
-  
       -->
-  
-  
-  
-  
-  
-  
-  
+
       <el-col :lg="24">
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
         <el-button class="btn" :type='timerRunning?"danger":"success"' @click="startClock()">{{timerRunning?"stop timer":"start timer"}}</el-button>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
       </el-col>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
     </el-row>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 
     <el-row>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 
       <el-col :lg="12">
-  
-  
-  
-  
-  
-  
-  
+ 
         <h1>Break Time</h1>
-  
-  
-  
-  
   
         <!--break time
   
@@ -327,12 +109,6 @@
   
       -->
   
-  
-  
-  
-  
-  
-  
         <el-time-picker v-model="breakTime" :picker-options="{
   
     
@@ -348,52 +124,11 @@
         </el-time-picker>
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
       </el-col>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
       <el-col :lg="12">
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
         <h1>Session Time</h1>
-  
-  
-  
-  
   
         <!--session time
   
@@ -417,12 +152,6 @@
   
       -->
   
-  
-  
-  
-  
-  
-  
         <el-time-picker v-model="sessionTime" :picker-options="{
   
     
@@ -437,38 +166,16 @@
   
         </el-time-picker>
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
       </el-col>
-  
-  
-  
-  
-  
-  
-  
+ 
     </el-row>
-  
-  
-  
+ 
   </el-card>
 </template>
 
 <script>
 export default {
-  name: "PromodoroClock",
+  name: "Promodoro",
 
   computed: {
     btnColor: function() {
@@ -502,7 +209,10 @@ export default {
 
       timerRunning: false,
 
-      interval: null
+      interval: null,
+      hour: 0,
+      minute: 0,
+      second: 0
     };
   },
 
@@ -531,6 +241,7 @@ export default {
       // this.status=this.timerRunning?"danger":"success"
 
       if (!this.timerRunning) {
+        //get session time and breaktime. then convert the sum into seconds
         let Sessiontime = new Date(this.sessionTime);
 
         let sessionHours = Sessiontime.getHours();
@@ -552,17 +263,17 @@ export default {
 
         let breakPeriod =
           breakHours * 60 * 60 + breakMinutes * 60 + breakSeconds;
-
+        //set current elapsed time to 0
         let currentTime = 0;
-
+        //check if the break period and session are > 0 . I don't want to have to deal with a division by 0
         if (breakPeriod > 0 && session > 0) {
+          // indicate that the time is running
           this.timerRunning = true;
-
-          let that = this;
-
+          //function that will run every second to update the progress and time
           this.interval = setInterval(() => {
+            //increment the current elapsed time
             currentTime++;
-
+            //reset progress
             let progress = 0;
 
             console.log("progress is" + progress);
@@ -570,10 +281,16 @@ export default {
             console.log("current time is" + currentTime);
 
             console.log("break time is" + breakPeriod);
-
-            if (that.inBreak == false) {
-              console.log("in success");
-
+            // if we're not on break calculate session progress
+            if (this.inBreak == false) {
+              console.log("in session");
+              //update timer to match current progress
+              this.hour = Math.floor((session - currentTime) / 60 / 60);
+              let secondsLeft = session - currentTime - this.hour * 60 * 60;
+              this.minute = Math.floor(secondsLeft / 60);
+              secondsLeft = secondsLeft - this.minute * 60;
+              this.second = Math.floor(secondsLeft);
+              //update progress
               progress = Math.ceil(currentTime * 100 / session);
 
               console.log(currentTime * 100);
@@ -584,9 +301,17 @@ export default {
 
               //this.status="success"
             } else {
-              progress = Math.ceil(currentTime * 100 / breakPeriod);
+              //if we're on break
+              // update countdown
+               this.hour = Math.floor((breakPeriod - currentTime) / 60 / 60);
+              let secondsLeft = breakPeriod - currentTime - this.hour * 60 * 60;
+              this.minute = Math.floor(secondsLeft / 60);
+              secondsLeft = secondsLeft - this.minute * 60;
+              this.second = Math.floor(secondsLeft);
+              //update progress
+              progress = Math.ceil(breakPeriod * 100 / breakPeriod);
 
-              console.log("in fail");
+              console.log("in break");
 
               console.log(currentTime * 100);
 
@@ -596,26 +321,29 @@ export default {
 
               //this.status="exception"
             }
-
+            //assign the new progress to the progress circle
             this.percentage = progress;
 
             console.log(progress);
-
+            // if session/break done
             if (this.percentage >= 99.99) {
               // debugger
-
+              //reset timer
               currentTime = 0;
 
               this.percentage = 0;
+              this.second = 0;
+              this.minute = 0;
+              this.hour = 0;
+              console.log(!this.inBreak);
+              //change working/break status
+              this.inBreak = !this.inBreak;
 
-              console.log(!that.inBreak);
-
-              that.inBreak = !that.inBreak;
-
-              console.log(!that.inBreak);
+              console.log(!this.inBreak);
             }
           }, 1000);
         } else {
+          //error handling for divisions by 0
           if (breakPeriod <= 0) {
             this.ShowWarning("please select a valid break time", "warning");
           }
@@ -625,6 +353,7 @@ export default {
           }
         }
       } else {
+        //if stop clicked stop the loop
         clearInterval(this.interval);
 
         console.log("stop");
@@ -632,9 +361,15 @@ export default {
         this.timerRunning = false;
 
         this.percentage = 0;
+        this.second = 0;
+        this.minute = 0;
+        this.hour = 0;
       }
     },
-
+    /**
+ * displays a toast
+ * with a message
+ */
     ShowWarning(message, status) {
       this.$message({
         message: message,
@@ -664,7 +399,16 @@ li {
 
   margin: 0 10px;
 }
-
+.dangerText {
+  color: #fa5555;
+  font-size: 36px;
+    font-weight: bold;
+}
+.successText {
+  color: #13ce66;
+  font-size: 36px;
+  font-weight: bold;
+}
 a {
   color: #42b983;
 }
