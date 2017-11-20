@@ -32,7 +32,7 @@
     <el-row>
       <el-col :lg="24">
 
-        <el-progress :width="200" :stroke-width="10" class="clock" type="circle" :percentage="percentage"></el-progress>
+        <el-progress :width="200" :stroke-width="10" class="clock" :status="status" type="circle" :percentage="percentage"></el-progress>
       </el-col>
 
     </el-row>
@@ -208,7 +208,7 @@ export default {
       //to check if the timer is running
 
       timerRunning: false,
-
+status:"success",
       interval: null,
       hour: 0,
       minute: 0,
@@ -299,7 +299,7 @@ export default {
 
               console.log(currentTime * 100 / session);
 
-              //this.status="success"
+              this.status="success"
             } else {
               //if we're on break
               // update countdown
@@ -309,7 +309,7 @@ export default {
               secondsLeft = secondsLeft - this.minute * 60;
               this.second = Math.floor(secondsLeft);
               //update progress
-              progress = Math.ceil(breakPeriod * 100 / breakPeriod);
+              progress = Math.ceil(currentTime * 100 / breakPeriod);
 
               console.log("in break");
 
@@ -319,7 +319,7 @@ export default {
 
               console.log(currentTime * 100 / breakPeriod);
 
-              //this.status="exception"
+              this.status="exception"
             }
             //assign the new progress to the progress circle
             this.percentage = progress;
@@ -338,7 +338,6 @@ export default {
               console.log(!this.inBreak);
               //change working/break status
               this.inBreak = !this.inBreak;
-
               console.log(!this.inBreak);
             }
           }, 1000);

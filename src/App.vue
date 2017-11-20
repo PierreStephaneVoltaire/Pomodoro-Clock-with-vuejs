@@ -306,7 +306,7 @@
   
   
   
-                  <el-col :md="6">
+                  <el-col :md="4">
   
   
   
@@ -344,7 +344,7 @@
   
   
   
-<!--   
+ 
   
                   <el-col :md="4">
   
@@ -362,7 +362,7 @@
   
   
   
-                    <el-button class="options" plain type="primary" v-on:click="editTask(myTask)">Edit</el-button>
+                    <el-button class="options" plain type="primary" v-on:click="openNewDialog(myTask)">Edit</el-button>
   
   
   
@@ -370,7 +370,7 @@
   
   
   
-                  </el-col> -->
+                  </el-col> 
   
   
   
@@ -378,7 +378,7 @@
   
   
   
-                  <el-col :md="6">
+                  <el-col :md="4">
   
   
   
@@ -712,7 +712,7 @@ export default {
 
   data() {
     return {
-      childRef:null,
+      childRef: null,
       //to chexk if the user is logged in
 
       loggedin: true,
@@ -733,15 +733,21 @@ export default {
         description: ""
       },
       rules: {
-          title: [
-            { required: true, message: 'Please input a valid title', trigger: 'change' },
-          ],
-           description: [
-            { required: true, message: 'Please input a valid description', trigger: 'change' },
-          ],
-        
-        }
-      
+        title: [
+          {
+            required: true,
+            message: "Please input a valid title",
+            trigger: "change"
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: "Please input a valid description",
+            trigger: "change"
+          }
+        ]
+      }
     };
   },
 
@@ -767,54 +773,49 @@ export default {
     removeTask(task) {
       tasksRef.child(task[".key"]).remove();
     },
-/**
+    /**
  * fix firebase duplicate on update issue
  */
-//     editTask: function(e) {
-//                   this.childref = e['.key'];
+    editTask: function(e) {
+      e = { ...e };
+      const tempRef = e[".key"];
+      delete e[".key"];
 
-//       this.dialogFormVisible = true;
+      tasksRef.child(tempRef).set(e);
+      this.dialogFormVisible = false;
+    },
 
-//       this.newTask.title = e.title;
-
-//       this.newTask.description = e.description;
-//       this.updateTask(e)
-//     },
-//       updateTask: function(e) {
-// e={...e}
-//    this.profile.tasks.child(e['.key']).update(e)
-
-// //  this.tasks.child(e).set({ title:this.newTask.title,description:  this.newTask.description});
-
-//     },
-
-    openNewDialog() {
-      this.newTask.title = "";
-
-      this.newTask.description = "";
+    openNewDialog(e) {
+      this.newTask = { ...e };
 
       this.dialogFormVisible = true;
     },
 
     addTask(formName) {
-       this.$refs[formName].validate((valid) => {
-          if (valid) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          if (
+            typeof this.newTask[".key"] === "undefined" ||
+            this.newTask[".key"] == null
+          ) {
             tasksRef.push(this.newTask);
+          } else {
+            this.editTask(this.newTask);
+          }
 
-      this.dialogFormVisible = false;
+          this.dialogFormVisible = false;
 
-      this.newTask.title = "";
+          this.newTask.title = "";
 
-      this.newTask.description = "";
-          } 
-        });
-      }
-     
-    
-    ,viewDetails(task){
-this.newTask.title=task.title
-this.newTask.description=task.description
-this.dialogDetailsVisible = true;
+          this.newTask.description = "";
+        }
+      });
+    },
+
+    viewDetails(task) {
+      this.newTask.title = task.title;
+      this.newTask.description = task.description;
+      this.dialogDetailsVisible = true;
     }
   }
 };
@@ -842,7 +843,7 @@ this.dialogDetailsVisible = true;
 
   color: white;
 }
-.title{
+.title {
   font-weight: bold;
   font-size: 20px;
 }
@@ -886,16 +887,16 @@ this.dialogDetailsVisible = true;
 
 .tasks .text {
   position: relative;
-font-size:20px; 
+  font-size: 20px;
 
   top: -3px;
 }
-.btn{
+.btn {
   width: 25%;
 }
-.taskManager{
-  margin-left:30px; 
-  margin-right: 30px;
+.taskManager {
+  margin-left: 0.75%;
+  margin-right: 0.75%;
 }
 
 .options {
@@ -903,8 +904,8 @@ font-size:20px;
 }
 
 .clock {
- margin-right: 30px;
-  margin-left: 30px;
+  margin-left: 0.75%;
+  margin-right: 0.75%;
 }
 
 .tasks .badge {
