@@ -31,7 +31,7 @@
   
   <el-header>
     <el-card>
-    <h1 v-for="(user, index) in profile" :key="user">welcome {{user.name}}!!!</h1>
+    <h1 v-for="(user, index) in profile" :key="user">Welcome {{user.name}}!!!</h1>
   </el-card>
   </el-header>
   <el-main>
@@ -162,7 +162,7 @@
   
   
   
-              <span class="title">tasks</span>
+              <span class="title">Tasks</span>
   
   
   
@@ -170,7 +170,7 @@
   
   
   
-              <el-button style="float: left; padding: 3px " type="primary" icon="plus" size="mini" @click="openNewDialog">add new task</el-button>
+              <el-button style="float: left; padding: 3px " type="primary" icon="plus" size="mini" @click="openNewDialog">Add new task</el-button>
   
   
   
@@ -394,7 +394,7 @@
   
   
   
-                    <el-button class="options" type="info" plain v-on:click="viewDetails(myTask)">details</el-button>
+                    <el-button class="options" type="info" plain v-on:click="viewDetails(myTask)">Details</el-button>
   
   
   
@@ -484,12 +484,12 @@
        <el-col :lg="24" >
   <h3>Instructions</h3>
     <el-steps   simple >
-  <el-step title="step 1:select a session time" ></el-step>
-     <el-step title="step 2:select a break time" ></el-step>
-   <el-step title="step 3:add a few tasks you'd like to work on" ></el-step>
-  <el-step title="step 4:start working" ></el-step>
-  <el-step title="step 5:take a break" ></el-step>
-    <el-step title="step 6:go back to step 4" ></el-step>
+  <el-step title="Step 1:Select a session time" ></el-step>
+     <el-step title="Step 2:Select a break time" ></el-step>
+   <el-step title="Step 3:Add a few tasks you'd like to work on(optional)" ></el-step>
+  <el-step title="Step 4:Start working" ></el-step>
+  <el-step title="Step 5:Take a break" ></el-step>
+    <el-step title="Step 6:Go back to step 4" ></el-step>
 
 </el-steps>
        </el-col>

@@ -15,16 +15,12 @@
   
     
   
-      the session circle should be blue,
+      the session circle should be green,
   
     
   
       the break circle should be red 
-  
     
-  
-      the clock should stop when tasks.length=0
-  
     
   
       -->
@@ -37,15 +33,7 @@
 
     </el-row>
   
-    <el-row>
 
-      <el-col :lg="24">
-  
-        <h2> {{inBreak ? "stop working":"Work!"}}</h2>
-  
-      </el-col>
-
-    </el-row>
   <!--countdoun
   #requirements
 
@@ -53,9 +41,9 @@
   #todo make another component display it
   -->
   <el-row>
-    <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"' >{{hour}}:HH</span></el-col>
-        <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"'>{{minute}}:seconds</span></el-col>
-    <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"'>{{second}}:seconds</span></el-col>
+    <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"' >{{hour}}:Hours</span></el-col>
+        <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"'>{{minute}}:Minutes</span></el-col>
+    <el-col :lg="8"><span :class='inBreak ? "dangerText":"successText"'>{{second}}:Seconds</span></el-col>
 
   </el-row>
 
@@ -79,7 +67,7 @@
 
       <el-col :lg="24">
   
-        <el-button class="btn" :type='timerRunning?"danger":"success"' @click="startClock()">{{timerRunning?"stop timer":"start timer"}}</el-button>
+        <el-button class="btn" :type='timerRunning?"danger":"success"' @click="startClock()">{{timerRunning?"End Working Session":"Start Working"}}</el-button>
   
       </el-col>
   
@@ -208,7 +196,7 @@ export default {
       //to check if the timer is running
 
       timerRunning: false,
-status:"success",
+      status: "success",
       interval: null,
       hour: 0,
       minute: 0,
@@ -276,14 +264,14 @@ status:"success",
             //reset progress
             let progress = 0;
 
-            console.log("progress is" + progress);
+            // console.log("progress is" + progress);
 
-            console.log("current time is" + currentTime);
+            // console.log("current time is" + currentTime);
 
-            console.log("break time is" + breakPeriod);
+            // console.log("break time is" + breakPeriod);
             // if we're not on break calculate session progress
             if (this.inBreak == false) {
-              console.log("in session");
+              // console.log("in session");
               //update timer to match current progress
               this.hour = Math.floor((session - currentTime) / 60 / 60);
               let secondsLeft = session - currentTime - this.hour * 60 * 60;
@@ -293,17 +281,17 @@ status:"success",
               //update progress
               progress = Math.ceil(currentTime * 100 / session);
 
-              console.log(currentTime * 100);
+              // console.log(currentTime * 100);
 
-              console.log(session);
+              // console.log(session);
 
-              console.log(currentTime * 100 / session);
+              // console.log(currentTime * 100 / session);
 
-              this.status="success"
+              this.status = "success";
             } else {
               //if we're on break
               // update countdown
-               this.hour = Math.floor((breakPeriod - currentTime) / 60 / 60);
+              this.hour = Math.floor((breakPeriod - currentTime) / 60 / 60);
               let secondsLeft = breakPeriod - currentTime - this.hour * 60 * 60;
               this.minute = Math.floor(secondsLeft / 60);
               secondsLeft = secondsLeft - this.minute * 60;
@@ -311,20 +299,20 @@ status:"success",
               //update progress
               progress = Math.ceil(currentTime * 100 / breakPeriod);
 
-              console.log("in break");
+              // console.log("in break");
 
-              console.log(currentTime * 100);
+              // console.log(currentTime * 100);
 
-              console.log(breakPeriod);
+              // console.log(breakPeriod);
 
-              console.log(currentTime * 100 / breakPeriod);
+              // console.log(currentTime * 100 / breakPeriod);
 
-              this.status="exception"
+              this.status = "exception";
             }
             //assign the new progress to the progress circle
             this.percentage = progress;
 
-            console.log(progress);
+            // console.log(progress);
             // if session/break done
             if (this.percentage >= 99.99) {
               // debugger
@@ -335,10 +323,10 @@ status:"success",
               this.second = 0;
               this.minute = 0;
               this.hour = 0;
-              console.log(!this.inBreak);
+              // console.log(!this.inBreak);
               //change working/break status
               this.inBreak = !this.inBreak;
-              console.log(!this.inBreak);
+              // console.log(!this.inBreak);
             }
           }, 1000);
         } else {
@@ -355,10 +343,9 @@ status:"success",
         //if stop clicked stop the loop
         clearInterval(this.interval);
 
-        console.log("stop");
+        // console.log("stop");
 
         this.timerRunning = false;
-
         this.percentage = 0;
         this.second = 0;
         this.minute = 0;
@@ -401,7 +388,7 @@ li {
 .dangerText {
   color: #fa5555;
   font-size: 36px;
-    font-weight: bold;
+  font-weight: bold;
 }
 .successText {
   color: #13ce66;
