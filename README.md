@@ -19,7 +19,8 @@
 * add the ability to have multiple users
 ### status
 **WIP**
-
+### demo
+https://pierrestephanevoltaire.github.io/Pomodoro-Clock-with-vuejs/
 ## Build Setup
 
 ``` bash
