@@ -706,7 +706,6 @@ export default {
 
   firebase: {
     tasks: tasksRef,
-
     profile: userRef
   },
 
@@ -754,28 +753,13 @@ export default {
   //methods
 
   methods: {
-    /**
   
-       * starts/ends the time loop depending the clock's status
-  
-       * should check if session time is > 0
-  
-       * should check if break time is >0
-  
-       * interval ref should not be in this function because it's needed to stop the 
-  
-       * setInterval loop
-  
-       * 
-  
-       */
 
     removeTask(task) {
       tasksRef.child(task[".key"]).remove();
     },
-    /**
- * fix firebase duplicate on update issue
- */
+  /** edit an existing task */
+
     editTask: function(e) {
       e = { ...e };
       const tempRef = e[".key"];
@@ -784,12 +768,14 @@ export default {
       tasksRef.child(tempRef).set(e);
       this.dialogFormVisible = false;
     },
+/** opens a dialog with an existing task */
 
     openNewDialog(e) {
       this.newTask = { ...e };
 
       this.dialogFormVisible = true;
     },
+/** adds or edits tasks */
 
     addTask(formName) {
       this.$refs[formName].validate(valid => {
@@ -811,7 +797,7 @@ export default {
         }
       });
     },
-
+/** view descriptions of tasks */
     viewDetails(task) {
       this.newTask.title = task.title;
       this.newTask.description = task.description;
